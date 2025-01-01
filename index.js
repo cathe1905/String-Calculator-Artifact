@@ -1,6 +1,6 @@
-// FLEXIBLE DELIMITERS: This function will maintain the previous functionalities, 
-// with a new feature: custom delimiters will be identified regardless of their length, 
-// and the function will use them to correctly separate the numbers.
+// MULTIPLE DELIMITERS: This function will maintain the previous functionalities, 
+// with a new feature: the code will support multiple delimiters that follow the 
+// desired format, being able to handle all the previous cases as well.
 
 
 function intAdd (str){
@@ -25,6 +25,7 @@ function intAdd (str){
 
     //Filter out negative numbers and terminate the execution of the code in that case.
     const negatives= allNumbers.filter(number=> number < 0)
+
     if(negatives.length > 0){
         console.error("negatives not allowed:" + negatives.join(","))
         return 
@@ -57,15 +58,16 @@ intAdd("2500,3,1001")
 intAdd("1000,5,10")
 intAdd( "//***\n1***2***3")
 intAdd( "//****\n1****2****3")
-
+intAdd("//*%\n1*2%3")
+intAdd("//*%?\n1*2%3?5")
 
 
 // Technical justification of the solution
 
-//In this task, I continued assigning specific tasks to helper functions since new functionalities 
-// are still being added to my code. This approach makes it simple to understand and easy to scale. 
-// I ensured that the code took different paths depending on the value of custom, avoiding double 
-// iterations, which makes the code more elegant.
+
+//Thanks to the separation of functions in my main function, in this task I only modified two of my helper functions, 
+// leaving my main function intact. I added logic to handle multiple delimiters, while keeping the logic for a delimiter 
+// of one or more characters. This approach continues to keep the code organized, processing only the necessary functions for each case.
 
 
 
@@ -80,12 +82,37 @@ function findCustomDelimiter(input) {
         //use the position to determine where the cut should end to identify the delimiter.
         const delimiter= input.slice(2, position)
 
-        return delimiter
+        //If the delimiter has a length of one, we don't need to process anything; we return it as is.
+        if(delimiter.length === 1){
+            return delimiter
+        }
 
-    }else{
+        //If the delimiter has a length greater than one, we need to determine if the characters 
+        // are the same (single delimiter) or if they are different (multiple delimiters).
+
+        //The container starts with the first character of the string as a reference for the evaluations.
+        let container= delimiter[0];
+
+
+        //We begin iterating from the second element of the delimiter; if the element is the 
+        // same as the previous one, we store them together in the container.
+        for(let i=1; i < delimiter.length; i++){
+            if(delimiter[i] === delimiter[i - 1]){
+                container+= delimiter[i]
+            //Otherwise, a comma is used to separate them and they are stored accordingly.
+            }else{
+                container+= ","
+                container+= delimiter[i]
+            }
+        }
+        //If the container is equal to the delimiter, it means it has not changed during the loop, so it's a single delimiter.
+        //Otherwise, it means it includes commas due to the loop, and we use the commas to separate the delimiters.
+       return container === delimiter ? delimiter : container.split(",")
+
+    }
         //If the custom delimiter pattern is not found, it returns ""
         return ""
-    }
+    
 }
 
 function filterBySize(arr) {
@@ -100,20 +127,28 @@ function filterBySize(arr) {
 }
 
 function iterateWithCustomDelimiter(input, delimiter){
+
     //Find the position where the numbers start.
     const init= input.indexOf('\n') + 1;
     //Trim the string, excluding the delimiter pattern.
     const divided= input.slice(init)
-    //Split the string using the delimiter.
-    const delimited= divided.split(delimiter);
-    const array= []
-    
-    //Convert the elements into numbers.
-    delimited.forEach(elem => {
-        array.push(Number(elem))
-    });
+    let array;
 
-   return array
+    //analyze whether the delimiter is a string or an array. If it's a string, 
+    // it's considered a single delimiter; if it's an array, it represents multiple delimiters.
+    if(typeof delimiter === 'string'){
+        //Split the string using the delimiter.
+        array= divided.split(delimiter);
+
+    }else{
+        //split the string without a separator, and then filter out those characters 
+        // that are not within the delimiters array.
+        array= divided.split("").filter(character => delimiter.includes(character) === false)
+    }
+     //Convert the elements into numbers.
+    const numbers= array.map(elem => Number(elem))
+
+    return numbers
 }
 
 function iterateWithoutCustomDelimiter (input){
