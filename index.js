@@ -1,12 +1,11 @@
-// IGNORING GIANTS: This function will maintain the previous functionalities, with the particularity 
-// that it will perform an additional evaluation and ignore numbers greater than 1000.
+// FLEXIBLE DELIMITERS: This function will maintain the previous functionalities, 
+// with a new feature: custom delimiters will be identified regardless of their length, 
+// and the function will use them to correctly separate the numbers.
 
 
 function intAdd (str){
-
-    //VARIABLES
-    let temporaryContainer=""; // Temporary container for data
-    const result= []; //container for the result
+    
+    let allNumbers; //container for the numbers
 
     // Evaluate if str is an empty string
     if(str === ""){
@@ -16,40 +15,27 @@ function intAdd (str){
     // Evaluate whether the string contains the required format for custom delimiters without using regular expressions.
     const custom= findCustomDelimiter(str);
 
-   // Iterates to select the characters that are numbers.
-    for(let i=0; i < str.length; i++){
-        
-       // Check if the character is not a newline, a comma, the custom delimiter, or a forward slash ("/"); if it passes the filters, it will be treated as part of a number.
-        if(str[i] !== '\n' && str[i] !== ',' && str[i] !== custom && str[i] !== "/"){
-            // Temporarily save the number in a container
-            temporaryContainer+= str[i];
-
-        // If it's not a number, it means it's a delimiter. Close the current number and add it to the result.
-        }else{
-            result.push(Number(temporaryContainer))
-            // Clear the temporary container
-            temporaryContainer= ""  
-        }
+    //If custom is empty, it will iterate to extract the numbers without considering a custom delimiter.
+    if(custom === ""){
+        allNumbers= iterateWithoutCustomDelimiter(str)
+    //If custom contains a value, it will iterate to extract the numbers considering a custom delimiter, regardless of its length.
+    }else{
+        allNumbers= iterateWithCustomDelimiter(str, custom)
     }
 
-    //If the last character was a number, it means the container still holds one number.
-    result.push(Number(temporaryContainer))
-
     //Filter out negative numbers and terminate the execution of the code in that case.
-    const negatives= result.filter(number=> number < 0)
+    const negatives= allNumbers.filter(number=> number < 0)
     if(negatives.length > 0){
         console.error("negatives not allowed:" + negatives.join(","))
         return 
     }
 
     // Use this function to sum only the numbers less than or equal to 1000
-    const finalResult= filterBySize(result)
+    const finalResult= filterBySize(allNumbers)
 
     //return the sum
     console.log(finalResult) 
-
 }
-
 
 
 
@@ -69,30 +55,41 @@ intAdd("//*\n-1*2") // Handling cases with custom delimiters and negative number
 intAdd("2,3,1001")
 intAdd("2500,3,1001")
 intAdd("1000,5,10")
+intAdd( "//***\n1***2***3")
+intAdd( "//****\n1****2****3")
 
 
 
 // Technical justification of the solution
 
-// I chose to simplify the code a bit because limiting the numbers to be less than or equal to 1000 makes the execution 
-// of any sum faster. This gives me the opportunity to use JavaScript methods like filter and reduce, which also helps
-// reduce the number of lines of code. Additionally, I separated some responsibilities into helper functions to 
-// make the code more readable
+//In this task, I continued assigning specific tasks to helper functions since new functionalities 
+// are still being added to my code. This approach makes it simple to understand and easy to scale. 
+// I ensured that the code took different paths depending on the value of custom, avoiding double 
+// iterations, which makes the code more elegant.
 
 
 
 //HELPER FUNCTIONS
 
 function findCustomDelimiter(input) {
-    if(input[0] === "/" && input[1] === "/" && input[3] === "\n"){
-        return input[2];
+
+    //check if the delimiter pattern exists
+    if(input[0] === "/" && input[1] === "/" && input.includes('\n')){
+        //look for the position of the newline.
+        const position= input.indexOf('\n');
+        //use the position to determine where the cut should end to identify the delimiter.
+        const delimiter= input.slice(2, position)
+
+        return delimiter
+
     }else{
+        //If the custom delimiter pattern is not found, it returns ""
         return ""
- 
     }
 }
 
 function filterBySize(arr) {
+    //use the reduce method to sum the numbers in an array, ignoring numbers greater than 1000.
     const finalResult= arr.reduce((acc, item ) => {
         if(item <= 1000){
             return acc + item;
@@ -100,4 +97,48 @@ function filterBySize(arr) {
         return acc
     }, 0)
     return finalResult
+}
+
+function iterateWithCustomDelimiter(input, delimiter){
+    //Find the position where the numbers start.
+    const init= input.indexOf('\n') + 1;
+    //Trim the string, excluding the delimiter pattern.
+    const divided= input.slice(init)
+    //Split the string using the delimiter.
+    const delimited= divided.split(delimiter);
+    const array= []
+    
+    //Convert the elements into numbers.
+    delimited.forEach(elem => {
+        array.push(Number(elem))
+    });
+
+   return array
+}
+
+function iterateWithoutCustomDelimiter (input){
+
+    let temporaryContainer=""; // Temporary container for data
+    const result= []
+    // Iterates to select the characters that are numbers.
+    for(let i=0; i < input.length; i++){
+        
+        // Check if the character is not a newline, a comma, the custom delimiter, or a forward slash ("/"); if it passes the filters, 
+        // it will be treated as part of a number.
+        if(input[i] !== '\n' && input[i] !== ','  && input[i] !== "/"){
+            // Temporarily save the number in a container
+            temporaryContainer+= input[i];
+
+        // If it's not a number, it means it's a delimiter. Close the current number and add it to the result.
+        }else{
+            result.push(Number(temporaryContainer))
+            // Clear the temporary container
+            temporaryContainer= ""  
+        }
+    }
+
+    //If the last character was a number, it means the container still holds one number.
+    result.push(Number(temporaryContainer))
+
+    return result;
 }
