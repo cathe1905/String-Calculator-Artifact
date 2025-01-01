@@ -1,6 +1,5 @@
-// MULTIPLE DELIMITERS: This function will maintain the previous functionalities, 
-// with a new feature: the code will support multiple delimiters that follow the 
-// desired format, being able to handle all the previous cases as well.
+// COMPLEX DELIMITERS: This function will maintain the previous functionalities, 
+// while also supporting multiple delimiters with lengths longer than one character.
 
 
 function intAdd (str){
@@ -60,14 +59,17 @@ intAdd( "//***\n1***2***3")
 intAdd( "//****\n1****2****3")
 intAdd("//*%\n1*2%3")
 intAdd("//*%?\n1*2%3?5")
+intAdd("//***%%??????\n1***2%%3??????20")
 
 
 // Technical justification of the solution
 
 
-//Thanks to the separation of functions in my main function, in this task I only modified two of my helper functions, 
-// leaving my main function intact. I added logic to handle multiple delimiters, while keeping the logic for a delimiter 
-// of one or more characters. This approach continues to keep the code organized, processing only the necessary functions for each case.
+//In this last task, I made a small modification to one of the helper functions to ensure that the array of 
+// delimiters could be evaluated correctly when their length is greater than one. The approach that was developed 
+// in my String Calculator, separating responsibilities and ensuring that only the necessary functions ran, 
+// made it much easier to add new functionalities to my String Calculator. I finally achieved an efficient 
+// calculator that handles all 9 cases presented in this challenge.
 
 
 
@@ -139,16 +141,35 @@ function iterateWithCustomDelimiter(input, delimiter){
     if(typeof delimiter === 'string'){
         //Split the string using the delimiter.
         array= divided.split(delimiter);
+         //Convert the elements into numbers.
+        const numbers= array.map(elem => Number(elem))
+        
+        return numbers
 
     }else{
-        //split the string without a separator, and then filter out those characters 
-        // that are not within the delimiters array.
-        array= divided.split("").filter(character => delimiter.includes(character) === false)
+       //Join the array of delimiters into a string for easier evaluation.
+        const delimiterIntoString= delimiter.join('');
+        array=[];
+        let temporaryContainer=""; // Temporary container for data
+        
+        for(let i=0; i < divided.length; i++){
+            //Check if the character is within the string of delimiters
+            if(!delimiterIntoString.includes(divided[i])){
+                //Add it to the temporary container
+                temporaryContainer+= divided[i];
+            }else{
+                //Add it to the array
+                array.push(Number(temporaryContainer))
+                // Clear the temporary container
+                temporaryContainer= ""  
+            }
+        }
+        //If the last character was a number, it means the container still holds one number.
+        array.push(Number(temporaryContainer))
+        return array;
+        
     }
-     //Convert the elements into numbers.
-    const numbers= array.map(elem => Number(elem))
-
-    return numbers
+    
 }
 
 function iterateWithoutCustomDelimiter (input){
