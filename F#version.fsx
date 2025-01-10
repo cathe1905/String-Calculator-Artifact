@@ -1,14 +1,15 @@
-// CUSTOM DELIMITERS: This function will handle custom delimiters
-// defined in a specific format, which will be evaluated at the beginning
-// while still supporting the default delimiters (commas and newlines).
+// NEGATIVE REBELION: This function will maintain the previous functionalities, with the particularity 
+// that it will perform an additional evaluation, and if there are negative numbers, it will throw 
+// an exception.
 
 
 (* Technical Justification of the Solution
 
-This time, I made significant changes to the function, starting by separating smaller 
-tasks to make my main function more readable and clean. This approach allows me to work 
-better with my code and make it scalable. I chose this way of evaluating the pattern to 
-avoid using regular expressions.
+This time, I kept the approach I created in the previous tasks by setting up two scenarios with if and else,
+ which depend on whether the input is in the custom format or not. I made the numbers and negatives variables 
+ remain outside the nested conditional, so the code is reused. The filtering for negative numbers happens in 
+ both scenarios because I want my function to reject negative numbers in all cases. In the end, I created a 
+ ternary operator to decide what will be returned.
 
 *)
 //Performs the extraction of numbers when the custom delimiters pattern exists.
@@ -28,13 +29,20 @@ let intAdd (str) =
     if str = "" then 
         0 
     else 
+        //set up a mutable empty array for all numbers.
         let mutable numbers= [||]
+
+        //set up a mutable empty array for all negative numbers.
+        let mutable negatives= [||]
          
          //check if the positions match the characters that form the pattern for custom delimiters.      
         if str.[0] = '/' && str.[1] = '/' && str.[3] = '\n' then
-        
+
             //store the result of the function.
             let result= evaluateWithCustomDelimiter str
+
+            //Filter all the negative numbers and store them in the negatives variable.
+            negatives <- Array.filter (fun x -> int x < 0) result
 
             // Convert each element of the array into a number.
             numbers <- Array.map int result
@@ -45,8 +53,11 @@ let intAdd (str) =
 
             // Splits the string 'str' into an array of substrings using the comma and newline characters as delimiters.
             let array= str.Split delimiters
-
-         // Convert each element of the array into a number.
+            
+            //Filter all the negative numbers and store them in the negatives variable.
+            negatives <- Array.filter (fun x -> int x < 0) array
+            
+            // Convert each element of the array into a number.
             numbers <- Array.map int array
 
 
@@ -54,8 +65,8 @@ let intAdd (str) =
         let sum= Array.sum numbers
 
         // //Return the result.
-        sum
-
+        if negatives.Length > 0 then failwithf "Negatives not allowed: %A" negatives else sum
+        
 
 // Tests
 printfn "Test 1: %d" (intAdd "")
@@ -67,5 +78,9 @@ printfn "Test 6: %d" (intAdd "15\n25,35\n45,55\n65,75,85\n95,105,115\n125,135,14
 printfn "Test 7: %d" (intAdd "//;\n1;2")
 printfn "Test 8: %d" (intAdd "1\n2,3")
 printfn "Test 9: %d" (intAdd "//?\n1?20?20")
+printfn "Test 10: %d" (intAdd "1,-2,-3")
+printfn "Test 11: %d" (intAdd "//*\n-1*2")
+
+
 
 
