@@ -1,15 +1,11 @@
-// NEGATIVE REBELION: This function will maintain the previous functionalities, with the particularity 
-// that it will perform an additional evaluation, and if there are negative numbers, it will throw 
-// an exception.
+// IGNORING GIANTS: This function will maintain the previous functionalities, with the particularity 
+// that it will perform an additional evaluation and ignore numbers greater than 1000.
 
 
 (* Technical Justification of the Solution
 
-This time, I kept the approach I created in the previous tasks by setting up two scenarios with if and else,
- which depend on whether the input is in the custom format or not. I made the numbers and negatives variables 
- remain outside the nested conditional, so the code is reused. The filtering for negative numbers happens in 
- both scenarios because I want my function to reject negative numbers in all cases. In the end, I created a 
- ternary operator to decide what will be returned.
+Thanks to the structure of my function, it was only necessary to modify one line so that, before 
+performing the sum, it filters out the numbers greater than 1000.
 
 *)
 //Performs the extraction of numbers when the custom delimiters pattern exists.
@@ -61,8 +57,8 @@ let intAdd (str) =
             numbers <- Array.map int array
 
 
-         //Use the sum function to add all the integers.
-        let sum= Array.sum numbers
+         //Discard the numbers greater than 1000 and then perform the sum.
+        let sum= numbers |> Array.filter( fun x -> x <= 1000) |> Array.sum
 
         // //Return the result.
         if negatives.Length > 0 then failwithf "Negatives not allowed: %A" negatives else sum
@@ -80,6 +76,9 @@ printfn "Test 8: %d" (intAdd "1\n2,3")
 printfn "Test 9: %d" (intAdd "//?\n1?20?20")
 printfn "Test 10: %d" (intAdd "1,-2,-3")
 printfn "Test 11: %d" (intAdd "//*\n-1*2")
+printfn "Test 12: %d" (intAdd "2,3,1001")
+printfn "Test 13: %d" (intAdd "2500,3,1001")
+printfn "Test 14: %d" (intAdd "1000,5,10")
 
 
 
