@@ -1,22 +1,31 @@
-// IGNORING GIANTS: This function will maintain the previous functionalities, with the particularity 
-// that it will perform an additional evaluation and ignore numbers greater than 1000.
+// FLEXIBLE DELIMITERS: This function will maintain the previous functionalities, 
+// with a new feature: custom delimiters will be identified regardless of their length, 
+// and the function will use them to correctly separate the numbers.
 
 
 (* Technical Justification of the Solution
 
-Thanks to the structure of my function, it was only necessary to modify one line so that, before 
-performing the sum, it filters out the numbers greater than 1000.
+Following the previous structure of my function, it was necessary to make modifications in 
+the function that evaluates the custom delimiter. This was done to exclude the newline character 
+from the process as it was causing issues. Then, allow the function to accept a delimiter of any 
+length, without modifying the original function.
 
 *)
 //Performs the extraction of numbers when the custom delimiters pattern exists.
+
+open System
+
 let evaluateWithCustomDelimiter (str: string) =
 
-    let customDelimiter= str.[2] //retrieve the delimiter.
-    let positionN= str.IndexOf('\n') //get the position where the numbers start.
-    let substring= str.Substring(positionN + 1) //trim the string.
-    let array= substring.Split customDelimiter //split the numbers using the delimiter.
+    let strWithReplace= str.Replace('\n', ' ') //Replace the newline with an empty space.
+    let positionN= strWithReplace.IndexOf(' ') //Get the position of the empty space.
+    let amauntCharacters= positionN - 2; //Calculate the number of characters of the delimiter.
+    let customDelimiter= strWithReplace.Substring(2, amauntCharacters) //retrieve the delimiter.
+    let arrayDelimiter= [|customDelimiter|] //Convert the delimiter into an array.
+    let substring= strWithReplace.Substring(positionN + 1) //trim the string.
+    let array= substring.Split(arrayDelimiter, System.StringSplitOptions.None) //split the numbers using the delimiter.
 
-    array //return the array
+    array//return the array
 
 //this function will return an integer
 let intAdd (str) =
@@ -32,7 +41,7 @@ let intAdd (str) =
         let mutable negatives= [||]
          
          //check if the positions match the characters that form the pattern for custom delimiters.      
-        if str.[0] = '/' && str.[1] = '/' && str.[3] = '\n' then
+        if str.[0] = '/' && str.[1] = '/' && str.IndexOf('\n') <> -1 then
 
             //store the result of the function.
             let result= evaluateWithCustomDelimiter str
@@ -59,9 +68,9 @@ let intAdd (str) =
 
          //Discard the numbers greater than 1000 and then perform the sum.
         let sum= numbers |> Array.filter( fun x -> x <= 1000) |> Array.sum
-
+        
         // //Return the result.
-        if negatives.Length > 0 then failwithf "Negatives not allowed: %A" negatives else sum
+        if negatives.Length > 0 then failwithf "Negatives not allowed: %s" (String.Join(",", negatives)) else sum
         
 
 // Tests
@@ -79,7 +88,8 @@ printfn "Test 11: %d" (intAdd "//*\n-1*2")
 printfn "Test 12: %d" (intAdd "2,3,1001")
 printfn "Test 13: %d" (intAdd "2500,3,1001")
 printfn "Test 14: %d" (intAdd "1000,5,10")
-
+printfn "Test 15: %d" (intAdd "//???\n1???20???20")
+printfn "Test 16: %d" (intAdd "//**\n1**2**20")
 
 
 
