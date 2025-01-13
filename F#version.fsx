@@ -1,33 +1,52 @@
-// FLEXIBLE DELIMITERS: This function will maintain the previous functionalities, 
-// with a new feature: custom delimiters will be identified regardless of their length, 
-// and the function will use them to correctly separate the numbers.
+// MULTIPLE DELIMITERS: This function will maintain the previous functionalities, 
+// with a new feature: the code will support multiple delimiters that follow the 
+// desired format, being able to handle all the previous cases as well.
 
 
 (* Technical Justification of the Solution
 
-Following the previous structure of my function, it was necessary to make modifications in 
-the function that evaluates the custom delimiter. This was done to exclude the newline character 
-from the process as it was causing issues. Then, allow the function to accept a delimiter of any 
-length, without modifying the original function.
+In this case, I created a new function to split the tasks that evaluateWithCustomDelimiter 
+performs. This new function is used to classify whether there is more than one delimiter, 
+and it also works when there is only one delimiter. This separation of concerns allows 
+evaluateWithCustomDelimiter to expect the array of delimiters from calculateDelimitersCount 
+and continue with the corresponding calculations. The main function remains intact.
 
 *)
-//Performs the extraction of numbers when the custom delimiters pattern exists.
+
 
 open System
 
+//Performs the counting and classification of the delimiters.
+let calculateDelimiterCount (str: string) =
+
+    //Classify each letter into groups of its same type and convert to an array.
+    let clasified= str |> Seq.groupBy id |> Seq.toArray
+
+    //Iterate through the groups with map to obtain sequences.
+    let delimiters= clasified |> Array.map snd
+
+    //Convert the sequences into arrays and join each array into a single string.
+    let unified= Array.map Seq.toArray delimiters |> Array.map (fun x -> (String.Join("", x)))
+   
+    unified// Return the array with the strings as delimiters.
+
+    
+ //Performs the extraction of numbers when the custom delimiters pattern exists.   
 let evaluateWithCustomDelimiter (str: string) =
 
     let strWithReplace= str.Replace('\n', ' ') //Replace the newline with an empty space.
     let positionN= strWithReplace.IndexOf(' ') //Get the position of the empty space.
     let amauntCharacters= positionN - 2; //Calculate the number of characters of the delimiter.
     let customDelimiter= strWithReplace.Substring(2, amauntCharacters) //retrieve the delimiter.
-    let arrayDelimiter= [|customDelimiter|] //Convert the delimiter into an array.
+    
+    let arrayDelimiter= calculateDelimiterCount customDelimiter //Convert the delimiter into an array.
+   
     let substring= strWithReplace.Substring(positionN + 1) //trim the string.
     let array= substring.Split(arrayDelimiter, System.StringSplitOptions.None) //split the numbers using the delimiter.
 
     array//return the array
+   
 
-//this function will return an integer
 let intAdd (str) =
 
     // Evaluate if str is an empty string
@@ -90,6 +109,8 @@ printfn "Test 13: %d" (intAdd "2500,3,1001")
 printfn "Test 14: %d" (intAdd "1000,5,10")
 printfn "Test 15: %d" (intAdd "//???\n1???20???20")
 printfn "Test 16: %d" (intAdd "//**\n1**2**20")
+printfn "Test 17: %d" (intAdd "//*?!\n1*2?20!6")
+printfn "Test 18: %d" (intAdd "//*?\n1*2?8")
 
 
 
