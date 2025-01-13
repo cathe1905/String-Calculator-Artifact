@@ -1,15 +1,14 @@
-// MULTIPLE DELIMITERS: This function will maintain the previous functionalities, 
-// with a new feature: the code will support multiple delimiters that follow the 
-// desired format, being able to handle all the previous cases as well.
+// COMPLEX DELIMITERS: This function will maintain the previous functionalities, 
+// while also supporting multiple delimiters with lengths longer than one character.
 
 
 (* Technical Justification of the Solution
 
-In this case, I created a new function to split the tasks that evaluateWithCustomDelimiter 
-performs. This new function is used to classify whether there is more than one delimiter, 
-and it also works when there is only one delimiter. This separation of concerns allows 
-evaluateWithCustomDelimiter to expect the array of delimiters from calculateDelimitersCount 
-and continue with the corresponding calculations. The main function remains intact.
+Due to the way I structured my code, as I progressed with the features, the tests from 
+previous tasks continued to work. In the previous task, I implemented support for delimiters 
+of any length, with the goal of ensuring that the tests from task 7 were functional. 
+For this reason, there is nothing more to add in this task, as multiple delimiters with 
+unknown lengths were already supported from the previous task.
 
 *)
 
@@ -111,6 +110,8 @@ printfn "Test 15: %d" (intAdd "//???\n1???20???20")
 printfn "Test 16: %d" (intAdd "//**\n1**2**20")
 printfn "Test 17: %d" (intAdd "//*?!\n1*2?20!6")
 printfn "Test 18: %d" (intAdd "//*?\n1*2?8")
+printfn "Test 19: %d" (intAdd "//***???!!!\n10***20???30!!!60")
+printfn "Test 20: %d" (intAdd "//~~##\n15~~2##8")
 
 
 
