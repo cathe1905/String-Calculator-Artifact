@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Calculator Javascript Version</title>  
+    <style>
+        body{
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
+        .all-block {
+          
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          
+        }
+        .container {
+          display: flex;
+          width: 80%;
+          max-width: 1000px;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+        }
+        .tests, .results {
+          flex: 1;
+          padding: 20px;
+          overflow-y: auto;
+          max-height: 90vh;
+        }
+        .tests {
+          background: #f0f8ff;
+          border-right: 2px solid #ddd;
+        }
+        .results {
+          background: #fff;
+        }
+        .test {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+        .test input {
+          margin-right: 10px;
+        }
+        .result {
+          background: #f9f9f9;
+          border: 1px solid #ddd;
+          padding: 10px;
+          margin-bottom: 10px;
+          border-radius: 5px;
+        }
+        .actions {
+          margin-top: 20px;
+        }
+        .btn {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          background: #007bff;
+          color: white;
+          cursor: pointer;
+        }
+        .btn:hover {
+          background: #0056b3;
+        }
+        h1, p{
+            text-align: center;
+        }
+      </style>
+</head>
+<body>
+    <h1>String Calculator Artifact</h1>
+    <p>Click the checkbox and see the result</p>
+    <div class="all-block">
+        <div class="container">
+            <div class="tests">
+              <h2>Tests</h2>
+              <div id="test-list"></div>
+            </div>
+            <div class="results">
+              <h2>Results</h2>
+              <div id="result-list"></div>
+              <div class="actions">
+                <button class="btn" id="clear-btn">Clear Results</button>
+              </div>
+            </div>
+          </div>
+    </div>
+  
+</body>
+<script src="index.js"></script>
+</html>

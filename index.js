@@ -27,14 +27,15 @@ function intAdd (str){
 
     if(negatives.length > 0){
         console.error("negatives not allowed:" + negatives.join(","))
-        return 
+        return "negatives not allowed:" + negatives.join(",")
     }
 
     // Use this function to sum only the numbers less than or equal to 1000
     const finalResult= filterBySize(allNumbers)
 
     //return the sum
-    console.log(finalResult) 
+    console.log(finalResult)
+    return finalResult 
 }
 
 
@@ -198,3 +199,58 @@ function iterateWithoutCustomDelimiter (input){
 
     return result;
 }
+
+//INTERFACE
+
+const tests = [
+    "", "1", "1,2", "30,30\n40,50\n100,25\n10,", "17, 3, 20",
+    "5,12,18,20,25,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300",
+    "15\n25,35\n45,55\n65,75,85\n95,105,115\n125,135,145,155,165,175,185,195,205,215,225,235\n,",
+    "//;\n1;3;2.5;3", "//*\n1*2", "//?\n1?20", "1,-2,-3", "//*\n-1*2",
+    "2,3,1001", "2500,3,1001", "1000,5,10", "//***\n1***2***3",
+    "//****\n1****2****3", "//*%\n1*2%3", "//*%?\n1*2%3?5", "//***%%??????\n1***2%%3??????20"
+  ];
+
+  // Contenedor de tests y resultados
+  const testList = document.getElementById("test-list");
+  const resultList = document.getElementById("result-list");
+  const clearBtn = document.getElementById("clear-btn");
+
+  // Crear la lista de tests
+  tests.forEach((test, index) => {
+    const testItem = document.createElement("div");
+    testItem.className = "test";
+    testItem.innerHTML = `
+      <input type="checkbox" id="test-${index}" data-test="${test}">
+      <label for="test-${index}">${test || "(empty string)"}</label>
+    `;
+    testList.appendChild(testItem);
+  });
+
+  // Manejar los cambios en los checkboxes
+  testList.addEventListener("change", (event) => {
+    if (event.target.tagName === "INPUT") {
+      const testStr = event.target.dataset.test;
+      const result = intAdd(testStr);
+      if (event.target.checked) {
+        const resultItem = document.createElement("div");
+        resultItem.className = "result";
+        resultItem.textContent = `Test: "${testStr}" → Result: ${result}`;
+        resultList.appendChild(resultItem);
+      } else {
+        [...resultList.children].forEach((child) => {
+          if (child.textContent.includes(`Test: "${testStr}"`)) {
+            child.remove();
+          }
+        });
+      }
+    }
+  });
+
+  // Limpiar resultados
+  clearBtn.addEventListener("click", () => {
+    resultList.innerHTML = "";
+    document.querySelectorAll("#test-list input").forEach(input => {
+      input.checked = false;
+    });
+  });
