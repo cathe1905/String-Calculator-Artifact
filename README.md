@@ -42,8 +42,21 @@ The code is organized into functions that handle custom delimiters and efficient
 
 This section showcases handwritten notes and whiteboard sketches created during the problem-solving process. These images represent my thought process, analysis, and brainstorming sessions while working on the challenge. They serve as proof of my effort and highlight the steps I took to solve the exercises effectively.
 
-![Whiteboard Analysis](https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.55.22_a8611aad.jpg)
-![Whiteboard Analysis](https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.40.33_dce63f2f.jpg)
-![Handwritten Notes](https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.40.34_659e4e99.jpg))
-![Handwritten Notes](https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.46.13_4de5803a.jpg)
+<div style="text-align: center;">
+  <div>
+    <img src="https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.55.22_a8611aad.jpg" width="300" height="400" />
+    <img src="https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.40.33_dce63f2f.jpg" width="300" height="400" />
+  </div>
+  <div>
+     <img src="https://github.com/cathe1905/String-Calculator-Artifact/blob/main/cuaderno2.jpg" width="600" height="400" />
+    
+  </div>
+   <div>
+     <img src="https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.46.13_4de5803a.jpg" width="300" height="400" />
+     <img src="https://github.com/cathe1905/String-Calculator-Artifact/blob/main/Imagen%20de%20WhatsApp%202025-01-15%20a%20las%2018.40.34_659e4e99.jpg" width="300" height="400" />
+  </div>
+</div>
+
+
+
 
