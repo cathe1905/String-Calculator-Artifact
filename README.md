@@ -17,20 +17,29 @@ The implementation of the String Calculator was done with the goal of handling b
 
 The code is organized into functions that handle custom delimiters and efficiently perform the summation, with filtering of numbers greater than 1000 and error handling for negative numbers. Each function is documented with comments to explain its functionality, making it easier for future developers to understand and contribute.
 
-## 🚀 Next Steps
+## 🧪 How to Test the Code
 
-- Continue refining the implementation to add more features.
-- Improve error handling.
-- Optimize the performance of delimiter handling.
+### JavaScript 💻
+You can test the code interactively through the [Vercel Interface](https://string-calculator-artifact.vercel.app/). This provides an easy-to-use environment to try out the code live.
 
-## 📂 Folder Structure
+Additionally, you can run the code and the tests directly in the console by following these steps:
+1. Clone the repository: `git clone https://github.com/cathe1905/String-Calculator-Artifact.git`
+2. Navigate to the project folder: `cd String-Calculator-Artifact`
+3. Run the code: `node index.js`
 
-```
-.
-├── fsharp-solution.fsx  # F# implementation
-├── javascript-solution.js  # JavaScript implementation
-├── README.md  # Project documentation
-```
+
+### F# 🖥️
+For testing with F#, you can run the code in the console by following these steps:
+1. Clone the repository: `git clone https://github.com/cathe1905/String-Calculator-Artifact.git`
+2. Navigate to the F# project folder: `cd String-Calculator-Artifact/FSharp`
+3. Run the code: `dotnet run`
+
+
+Additionally, here is a [link to a video](https://www.loom.com/share/c07123bbbeab41bfa6c56c454b4fda29) explaining the work behind the F# code and how to run it.
+
+> 🎥 **Video Explanation**: A summary of the work in the F# code.
+
+
 
 ## 🌟 Highlights
 
